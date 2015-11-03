@@ -53,3 +53,4 @@ class Solution:
             return swm
 
 print Solution().max_sliding_window([1, 2, 7, 7, 2, 10, 3, 4, 5], 2)
+# So, this is super hard difficulty?
