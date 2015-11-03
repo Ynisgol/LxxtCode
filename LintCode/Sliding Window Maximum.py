@@ -13,7 +13,7 @@ class Solution:
     def max_sliding_window(nums, k):
         # write your code here
         # we can try a max deque that stores index
-        # and a deque that stores the window
+        # and a deque that stores the window (no need to store window)
         # 1. when the window deque is not full
         #   put one into the window deque
         #   do
@@ -38,15 +38,13 @@ class Solution:
             return []
         else:  # nums contains at least 1 number and k > 0
             swm = []
-            window_dq = deque()
             max_dq = deque()
             for i in range(len(nums)):
-                window_dq.append(i)
                 while max_dq and nums[i] > nums[max_dq[-1]]:
                     max_dq.pop()
                 max_dq.append(i)
-                if len(window_dq) > k:
-                    if window_dq.popleft() == max_dq[0]:
+                if i >= k:
+                    if i - k == max_dq[0]:
                         max_dq.popleft()
                 if i >= k - 1:
                     swm += [nums[max_dq[0]]]
