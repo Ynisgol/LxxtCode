@@ -1,13 +1,12 @@
 import heapq
 
 
-class Solution:
-    def __init__(self):
-        return
-
-    # @param buildings: A list of lists of integers
-    # @return: A list of lists of integers
-    def building_outline(self, buildings):
+class Solution(object):
+    def get_skyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
         heights = []
         for building in buildings:
             # need to negate building[2] since heapq only supports min heap
@@ -16,14 +15,16 @@ class Solution:
         heights = sorted(heights, cmp=lambda x, y: x[2] - y[2] if x[2] != y[2] else y[1] - x[1])
         outlines = []
         h = []
-        prev = 0
+        prev = -1
         for height in heights:
             if height[1] == 1:
                 if not h:
+                    if prev != -1:
+                        outlines += [[prev, 0]]
                     prev = height[2]
                 elif h and h[0][0] > height[0]:
                     if prev != height[2]:
-                        outlines += [[prev, height[2], - h[0][0]]]
+                        outlines += [[prev, - h[0][0]]]
                     prev = height[2]
                 elif h[0][3] >= height[3]:  # also h[0][0] <= height[0]
                     continue
@@ -37,8 +38,10 @@ class Solution:
                     heapq.heapify(h)
                     if not h or h[0][0] != old_top:
                         if prev != height[2]:
-                            outlines += [[prev, height[2], - old_top]]
+                            outlines += [[prev, - old_top]]
                         prev = height[2]
+        if prev != -1:
+            outlines += [[prev, 0]]
         return outlines
 
     def find(self, h, value, i):
@@ -58,10 +61,3 @@ class Solution:
     @staticmethod
     def is_counter(up, down):
         return up[0] == down[0] and up[1] + down[1] == 0 and up[2] == down[3] and up[3] == down[2]
-
-
-print Solution().building_outline([
-    [1, 6, 1],
-    [1, 2, 2],
-    [2, 5, 1]
-])
