@@ -46,7 +46,7 @@ class Solution:
             return -1
         if self.is_counter(h[i], value):
             return i
-        elif h[i][0] >= value[0]:
+        elif h[i][0] > value[0]:
             return -1
         else:
             left = self.find(h, value, 2 * i + 1)
@@ -59,7 +59,9 @@ class Solution:
     def is_counter(up, down):
         return up[0] == down[0] and up[1] + down[1] == 0 and up[2] == down[3] and up[3] == down[2]
 
+
 print Solution().building_outline([
     [1, 6, 1],
+    [1, 2, 2],
     [2, 5, 1]
 ])
