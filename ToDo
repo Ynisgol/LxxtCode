@@ -1,6 +1,7 @@
 Data Sturctures:
   AVL tree
   red-black tree
+  强连通图，弱连通图
 
 Algorithms:
   Dijkstra
