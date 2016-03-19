@@ -1,0 +1,46 @@
+class MedianFinder {
+    private PriorityQueue<Integer> maxQ;
+    private PriorityQueue<Integer> minQ;
+    
+    public MedianFinder() {
+        maxQ = new PriorityQueue<Integer>(10, new Comparator<Integer>() {
+            public int compare(Integer a, Integer b) {
+                return b - a;
+            }
+        }); // anonymous object
+        minQ = new PriorityQueue<Integer>();
+    }
+
+    // Adds a number into the data structure.
+    public void addNum(int num) {
+        if (maxQ.size() == minQ.size()) { // add to maxQ
+            if (minQ.size() == 0 || num <= minQ.peek()) {
+                maxQ.offer(num);
+            } else {
+                maxQ.offer(minQ.poll());
+                minQ.offer(num);
+            }
+        } else { // add to minQ, maxQ.size() > minQ.size()
+            if (num >= maxQ.peek()) {
+                minQ.offer(num);
+            } else {
+                minQ.offer(maxQ.poll());
+                maxQ.offer(num);
+            }
+        }
+    }
+
+    // Returns the median of current data stream
+    public double findMedian() {
+        if (maxQ.size() == minQ.size()) {
+            return (maxQ.peek() + minQ.peek()) / 2.0;
+        } else {
+            return maxQ.peek();
+        }
+    }
+};
+
+// Your MedianFinder object will be instantiated and called as such:
+// MedianFinder mf = new MedianFinder();
+// mf.addNum(1);
+// mf.findMedian();
